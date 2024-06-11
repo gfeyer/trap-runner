@@ -56,7 +56,7 @@ bool MainScene::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create("CloseNormal.png", "CloseSelected.png",
+    auto closeItem = MenuItemImage::create("Content/res/sprites/CloseNormal.png", "Content/res/sprites/CloseSelected.png",
         AX_CALLBACK_1(MainScene::menuCloseCallback, this));
 
     if (closeItem == nullptr || closeItem->getContentSize().width <= 0 || closeItem->getContentSize().height <= 0)
@@ -102,7 +102,7 @@ bool MainScene::init()
     // add a label shows "Hello World"
     // create and initialize a label
 
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
+    auto label = Label::createWithTTF("Trap Runner", "Content/res/fonts/Marker Felt.ttf", 24);
     if (label == nullptr)
     {
         problemLoading("'fonts/Marker Felt.ttf'");
@@ -116,25 +116,32 @@ bool MainScene::init()
         // add the label as a child to this layer
         this->addChild(label, 1);
     }
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png"sv);
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
 
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-        auto drawNode = DrawNode::create();
-        drawNode->setPosition(Vec2(0, 0));
-        addChild(drawNode);
+    // Initialize Scene Objects
+    // Load sprite frames from the plist file
+    // Load sprite frames from the plist file
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Content/res/animations/copper_coin.plist",
+                                                             "Content/res/sprites/copper_coin.png");
 
-        drawNode->drawRect(safeArea.origin + Vec2(1, 1), safeArea.origin + safeArea.size, Color4F::BLUE);
-    }
+    // Create animation frames
+    Vector<SpriteFrame*> animFrames;
+    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin1.png"));
+    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin2.png"));
+    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin3.png"));
+    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin4.png"));
+
+    // Create animation and animate action
+    auto animation = Animation::createWithSpriteFrames(animFrames, 0.1f);  // 0.1 seconds per frame
+    auto animate   = Animate::create(animation);
+
+    // Create sprite and run the animation
+    auto sprite = Sprite::createWithSpriteFrameName("copper_coin1.png");
+    sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+    this->addChild(sprite);
+
+    // Run the animation
+    sprite->runAction(RepeatForever::create(animate));
+
 
     // scheduleUpdate() is required to ensure update(float) is called on every loop
     scheduleUpdate();
