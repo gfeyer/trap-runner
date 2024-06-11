@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/build_x64
+/proj.android
+/proj.ios_mac
+/proj.linux
+/proj.winrt
+/.clang-format
+/.editorconfig
+/build.bat
+/run.bat
+/run.bat.in
