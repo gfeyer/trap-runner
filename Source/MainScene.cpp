@@ -24,6 +24,8 @@
  ****************************************************************************/
 
 #include "MainScene.h"
+#include "AnimationManager.h"
+#include "Constants.h"
 
 USING_NS_AX;
 
@@ -118,29 +120,22 @@ bool MainScene::init()
     }
 
     // Initialize Scene Objects
-    // Load sprite frames from the plist file
-    // Load sprite frames from the plist file
-    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Content/res/animations/copper_coin.plist",
-                                                             "Content/res/sprites/copper_coin.png");
 
-    // Create animation frames
-    Vector<SpriteFrame*> animFrames;
-    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin1.png"));
-    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin2.png"));
-    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin3.png"));
-    animFrames.pushBack(SpriteFrameCache::getInstance()->getSpriteFrameByName("copper_coin4.png"));
+    AnimationManager::getInstance().loadAnimations();
 
-    // Create animation and animate action
-    auto animation = Animation::createWithSpriteFrames(animFrames, 0.1f);  // 0.1 seconds per frame
-    auto animate   = Animate::create(animation);
 
     // Create sprite and run the animation
-    auto sprite = Sprite::createWithSpriteFrameName("copper_coin1.png");
+    auto sprite = Sprite::create();
     sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
     this->addChild(sprite);
 
-    // Run the animation
-    sprite->runAction(RepeatForever::create(animate));
+    // Load AnimateAction
+    auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::COPPER_COIN);
+    if (animateAction)
+    {
+        sprite->runAction(ax::RepeatForever::create(animateAction));
+    }
+
 
 
     // scheduleUpdate() is required to ensure update(float) is called on every loop
