@@ -1,6 +1,8 @@
 #include "AnimationManager.h"
 #include "Constants.h"
 
+// Use: https://ezgif.com/sprite-cutter
+
 AnimationManager& AnimationManager::getInstance()
 {
     static AnimationManager instance;
