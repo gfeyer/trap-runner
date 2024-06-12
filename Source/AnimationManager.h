@@ -14,6 +14,7 @@ public:
 
 private:
     void loadConsumables();
+    void loadPlayer();
 
     AnimationManager()                                   = default;
     ~AnimationManager()                                  = default;

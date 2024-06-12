@@ -126,11 +126,12 @@ bool MainScene::init()
 
     // Create sprite and run the animation
     auto sprite = Sprite::create();
-    sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+    sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height/2 + origin.y));
     this->addChild(sprite);
 
     // Load AnimateAction
-    auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::COPPER_COIN);
+    auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::LUDIC_IDLE);
     if (animateAction)
     {
         sprite->runAction(ax::RepeatForever::create(animateAction));
