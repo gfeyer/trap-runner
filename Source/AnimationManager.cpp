@@ -17,7 +17,7 @@ void AnimationManager::loadAnimations() {
     loadConsumables();
     loadPlayer();
 }
-void AnimationManager::loadConsumables() {
+void AnimationManager::loadConsumables() { 
 
     // Load Copper Coin
     SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Content/res/animations/copper_coin.plist",

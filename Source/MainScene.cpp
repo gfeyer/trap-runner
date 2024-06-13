@@ -43,10 +43,15 @@ bool MainScene::init()
 {
     //////////////////////////////
     // 1. super init first
-    if (!Scene::init())
+    if (!Scene::initWithPhysics())
     {
         return false;
     }
+    // Optional: Set the debug draw to visualize the physics bodies
+    this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
+
+    // Set gravity for the physics world
+    this->getPhysicsWorld()->setGravity(Vec2(0, -98));
 
     auto visibleSize = _director->getVisibleSize();
     auto origin = _director->getVisibleOrigin();
