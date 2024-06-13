@@ -40,16 +40,17 @@ void AnimationManager::loadConsumables() {
 
 void AnimationManager::loadPlayer() {
     // idle
-    loadPlayerAnimation(kAnimationKeys::LUDIC_ATTACK, 10, 426, 512);
-    loadPlayerAnimation(kAnimationKeys::LUDIC_DEATH, 10, 596, 517);
-    loadPlayerAnimation(kAnimationKeys::LUDIC_IDLE, 10, 198, 500);
-    loadPlayerAnimation(kAnimationKeys::LUDIC_JUMP, 10, 367, 512);
-    loadPlayerAnimation(kAnimationKeys::LUDIC_RUN, 10, 450, 514);
-    loadPlayerAnimation(kAnimationKeys::LUDIC_SLIDE, 10, 457, 284);
-    loadPlayerAnimation(kAnimationKeys::LUDIC_WALK, 10, 223, 517);
+    loadPngAnimation(kAnimationKeys::LUDIC_ATTACK, 10, 426, 512);
+    loadPngAnimation(kAnimationKeys::LUDIC_DEATH, 10, 596, 517);
+    loadPngAnimation(kAnimationKeys::LUDIC_IDLE, 10, 198, 500);
+    loadPngAnimation(kAnimationKeys::LUDIC_JUMP, 10, 367, 512);
+    loadPngAnimation(kAnimationKeys::LUDIC_RUN, 10, 450, 514);
+    loadPngAnimation(kAnimationKeys::LUDIC_SLIDE, 10, 457, 284);
+    loadPngAnimation(kAnimationKeys::LUDIC_WALK, 10, 223, 517);
+    loadPngAnimation(kAnimationKeys::SPATTER, 10, 128, 128);
 }
 
-void AnimationManager::loadPlayerAnimation(const std::string& animationName, int frameCount, int width, int height) {
+void AnimationManager::loadPngAnimation(const std::string& animationName, int frameCount, int width, int height) {
 
     // Create a vector to hold the sprite frames
     Vector<SpriteFrame*> frames;

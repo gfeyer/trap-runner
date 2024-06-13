@@ -13,6 +13,7 @@ const std::string LUDIC_JUMP    = "ludic_jump";
 const std::string LUDIC_RUN     = "ludic_run";
 const std::string LUDIC_SLIDE   = "ludic_slide";
 const std::string LUDIC_WALK    = "ludic_walk";
+const std::string SPATTER       = "spatter";
 
 }  
 
