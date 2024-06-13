@@ -1,6 +1,10 @@
 #include "AnimationManager.h"
 #include "Constants.h"
 
+#include <vector>
+#include <string>
+using namespace std;
+
 // Use: https://ezgif.com/sprite-cutter
 
 AnimationManager& AnimationManager::getInstance()
@@ -35,32 +39,36 @@ void AnimationManager::loadConsumables() {
 }
 
 void AnimationManager::loadPlayer() {
-      // idle
-    // Add individual PNG files to the SpriteFrameCache
-    for (int i = 0; i < 10; ++i)
-    {
-        std::string frameName = StringUtils::format("ludic_idle_%d.png", i);
-        std::string framePath = StringUtils::format("Content/res/sprites/%s", frameName.c_str());
-        SpriteFrameCache::getInstance()->addSpriteFrame(SpriteFrame::create(framePath, Rect(0, 0, 198, 500)),
-                                                        frameName);
-    }
+    // idle
+    loadPlayerAnimation(kAnimationKeys::LUDIC_IDLE, 198, 500);
+    
+}
+
+void AnimationManager::loadPlayerAnimation(const std::string& animationName, int width, int height) {
 
     // Create a vector to hold the sprite frames
     Vector<SpriteFrame*> frames;
-
-    // Load each frame from the SpriteFrameCache
+    
     for (int i = 0; i < 10; ++i)
     {
-        std::string frameName = StringUtils::format("ludic_idle_%d.png", i);
-        auto frame            = SpriteFrameCache::getInstance()->getSpriteFrameByName(frameName);
+        stringstream ss;
+        ss << animationName << "_" << i << ".png";
+        string frameName = ss.str();
+    
+        AXLOG(frameName.c_str());
+    
+        std::string framePath = StringUtils::format("Content/res/sprites/%s", frameName.c_str());
+        SpriteFrameCache::getInstance()->addSpriteFrame(SpriteFrame::create(framePath, Rect(0, 0, width, height)),
+                                                        frameName);
+        // Load each frame from the SpriteFrameCache
+        auto frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(frameName);
         frames.pushBack(frame);
     }
-
+    
     // Create the animation from the frames
     auto animation = Animation::createWithSpriteFrames(frames, 0.1f);  // 0.1 seconds per frame
-    AnimationCache::getInstance()->addAnimation(animation, kAnimationKeys::LUDIC_IDLE);
-
-
+    AnimationCache::getInstance()->addAnimation(animation, animationName);
+    
 }
 
 Animate* AnimationManager::getAnimateAction(const std::string& key)

@@ -15,6 +15,7 @@ public:
 private:
     void loadConsumables();
     void loadPlayer();
+    void loadPlayerAnimation(const std::string&, int width, int height);
 
     AnimationManager()                                   = default;
     ~AnimationManager()                                  = default;
