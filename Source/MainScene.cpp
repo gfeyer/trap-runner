@@ -131,7 +131,7 @@ bool MainScene::init()
     this->addChild(sprite);
 
     // Load AnimateAction
-    auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::LUDIC_IDLE);
+    auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::LUDIC_WALK);
     if (animateAction)
     {
         sprite->runAction(ax::RepeatForever::create(animateAction));
