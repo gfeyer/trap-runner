@@ -47,10 +47,10 @@ void AnimationManager::loadPlayer() {
     loadPngAnimation(kAnimationKeys::LUDIC_RUN, 10, 450, 514);
     loadPngAnimation(kAnimationKeys::LUDIC_SLIDE, 10, 457, 284);
     loadPngAnimation(kAnimationKeys::LUDIC_WALK, 10, 223, 517);
-    loadPngAnimation(kAnimationKeys::SPATTER, 10, 128, 128);
+    loadPngAnimation(kAnimationKeys::SPATTER, 10, 128, 128, 0.05f);
 }
 
-void AnimationManager::loadPngAnimation(const std::string& animationName, int frameCount, int width, int height) {
+void AnimationManager::loadPngAnimation(const std::string& animationName, int frameCount, int width, int height, float rate) {
 
     // Create a vector to hold the sprite frames
     Vector<SpriteFrame*> frames;
@@ -70,7 +70,7 @@ void AnimationManager::loadPngAnimation(const std::string& animationName, int fr
     }
     
     // Create the animation from the frames
-    auto animation = Animation::createWithSpriteFrames(frames, 0.1f);  // 0.1 seconds per frame
+    auto animation = Animation::createWithSpriteFrames(frames, rate);  // 0.1 seconds per frame
     AnimationCache::getInstance()->addAnimation(animation, animationName);
     
 }
