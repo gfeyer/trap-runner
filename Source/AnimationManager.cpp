@@ -59,9 +59,7 @@ void AnimationManager::loadPlayerAnimation(const std::string& animationName, int
         stringstream ss;
         ss << animationName << "_" << i << ".png";
         string frameName = ss.str();
-    
-        AXLOG(frameName.c_str());
-    
+        
         std::string framePath = StringUtils::format("Content/res/sprites/%s", frameName.c_str());
         SpriteFrameCache::getInstance()->addSpriteFrame(SpriteFrame::create(framePath, Rect(0, 0, width, height)),
                                                         frameName);
