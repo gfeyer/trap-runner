@@ -126,23 +126,29 @@ bool MainScene::init()
 
     // Initialize Scene Objects
 
-    AnimationManager::getInstance().loadAnimations();
+    //AnimationManager::getInstance().loadAnimations();
 
 
     // Create sprite and run the animation
-    auto sprite = Sprite::create();
+    //auto sprite = Sprite::create();
 
-    sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height/2 + origin.y));
-    this->addChild(sprite);
+    //sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height/2 + origin.y));
+    //this->addChild(sprite);
 
-    // Load AnimateAction
-    auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::SPATTER);
-    if (animateAction)
+    //// Load AnimateAction
+    //auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::SPATTER);
+    //if (animateAction)
+    //{
+    //    sprite->runAction(ax::RepeatForever::create(animateAction));
+    //}
+
+
+    // Load the TMX file and add it to the scene
+    auto tmxMap = TMXTiledMap::create("Content/levels/tutorial.tmx");
+    if (tmxMap)
     {
-        sprite->runAction(ax::RepeatForever::create(animateAction));
+        this->addChild(tmxMap);
     }
-
-
 
     // scheduleUpdate() is required to ensure update(float) is called on every loop
     scheduleUpdate();
