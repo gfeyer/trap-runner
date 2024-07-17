@@ -117,7 +117,14 @@ bool MainScene::init()
     listener->onKeyReleased = AX_CALLBACK_2(MainScene::onKeyReleased, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
+    // add camera
+    auto camera = Camera::create();
+    camera->setCameraFlag(CameraFlag::USER1);
+    this->addChild(camera);
 
+    // camera follow sprite
+    camera->setPosition(sprite->getPosition());
+    this->runAction(Follow::create(sprite, Rect::ZERO));
 
     scheduleUpdate();
 
