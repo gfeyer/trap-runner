@@ -51,7 +51,7 @@ bool MainScene::init()
     this->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // Set gravity for the physics world
-    this->getPhysicsWorld()->setGravity(Vec2(0, -98));
+    //this->getPhysicsWorld()->setGravity(Vec2(0, -98));
 
     auto visibleSize = _director->getVisibleSize();
     auto origin = _director->getVisibleOrigin();
@@ -85,72 +85,40 @@ bool MainScene::init()
     /////////////////////////////
     // 3. add your codes below...
 
-    // Some templates (uncomment what you  need)
-    auto touchListener = EventListenerTouchAllAtOnce::create();
-    touchListener->onTouchesBegan = AX_CALLBACK_2(MainScene::onTouchesBegan, this);
-    touchListener->onTouchesMoved = AX_CALLBACK_2(MainScene::onTouchesMoved, this);
-    touchListener->onTouchesEnded = AX_CALLBACK_2(MainScene::onTouchesEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
-
-    //auto mouseListener           = EventListenerMouse::create();
-    //mouseListener->onMouseMove   = AX_CALLBACK_1(MainScene::onMouseMove, this);
-    //mouseListener->onMouseUp     = AX_CALLBACK_1(MainScene::onMouseUp, this);
-    //mouseListener->onMouseDown   = AX_CALLBACK_1(MainScene::onMouseDown, this);
-    //mouseListener->onMouseScroll = AX_CALLBACK_1(MainScene::onMouseScroll, this);
-    //_eventDispatcher->addEventListenerWithSceneGraphPriority(mouseListener, this);
-
-    //auto keyboardListener           = EventListenerKeyboard::create();
-    //keyboardListener->onKeyPressed  = AX_CALLBACK_2(MainScene::onKeyPressed, this);
-    //keyboardListener->onKeyReleased = AX_CALLBACK_2(MainScene::onKeyReleased, this);
-    //_eventDispatcher->addEventListenerWithFixedPriority(keyboardListener, 11);
-
-
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-
-    auto label = Label::createWithTTF("Trap Runner", "Content/res/fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(
-            Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - label->getContentSize().height));
-
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
-
-    // Initialize Scene Objects
-
-    //AnimationManager::getInstance().loadAnimations();
-
-
-    // Create sprite and run the animation
-    //auto sprite = Sprite::create();
-
-    //sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height/2 + origin.y));
-    //this->addChild(sprite);
-
-    //// Load AnimateAction
-    //auto animateAction = AnimationManager::getInstance().getAnimateAction(kAnimationKeys::SPATTER);
-    //if (animateAction)
-    //{
-    //    sprite->runAction(ax::RepeatForever::create(animateAction));
-    //}
-
-
     // Load the TMX file and add it to the scene
     auto tmxMap = TMXTiledMap::create("Content/levels/tutorial.tmx");
     if (tmxMap)
     {
-        this->addChild(tmxMap);
+         this->addChild(tmxMap);
+    }
+    else
+    {
+        problemLoading("Content/levels/tutorial.tmx");
     }
 
-    // scheduleUpdate() is required to ensure update(float) is called on every loop
+    // Add a sprite to the scene
+    auto sprite = Sprite::create("Content/res/sprites/HelloWorld.png");
+    if (sprite)
+    {
+        // position the sprite on the center of the screen
+        sprite->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y));
+
+        // add the sprite as a child to this layer
+        this->addChild(sprite, 0, "sprite");
+    }
+    else
+    {
+        problemLoading("Content/res/sprites/HelloWorld.png");
+    }
+
+    // callback to move sprite around the screen
+    auto listener = EventListenerKeyboard::create();
+    listener->onKeyPressed  = AX_CALLBACK_2(MainScene::onKeyPressed, this);
+    listener->onKeyReleased = AX_CALLBACK_2(MainScene::onKeyReleased, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
+
+
     scheduleUpdate();
 
     return true;
@@ -208,6 +176,28 @@ void MainScene::onMouseScroll(Event* event)
 void MainScene::onKeyPressed(EventKeyboard::KeyCode code, Event* event)
 {
     AXLOG("onKeyPressed, keycode: %d", static_cast<int>(code));
+    auto sprite = this->getChildByName<Sprite*>("sprite");
+    if (sprite)
+    {
+        AXLOG("onKeyPressed, MOVING");
+        switch (code)
+        {
+        case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+            sprite->setPositionX(sprite->getPositionX() - 10);
+            break;
+        case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
+            sprite->setPositionX(sprite->getPositionX() + 10);
+            break;
+        case EventKeyboard::KeyCode::KEY_UP_ARROW:
+            sprite->setPositionY(sprite->getPositionY() + 10);
+            break;
+        case EventKeyboard::KeyCode::KEY_DOWN_ARROW:
+            sprite->setPositionY(sprite->getPositionY() - 10);
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void MainScene::onKeyReleased(EventKeyboard::KeyCode code, Event* event)
